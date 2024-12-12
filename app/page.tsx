@@ -3,19 +3,9 @@ import BookForm from "@/components/book-form"
 import { Book } from "@/data"
 
 export default async function Home() {
-  const baseURL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-
-  const res = await fetch(`${baseURL}/api/books`);
-  const rawData = await res.text(); // Use .text() to read raw response
-  console.log("Raw API Response:", rawData);
-
-  let books: Book[] = [];
-  try {
-    books = JSON.parse(rawData); // Convert response to JSON
-  } catch (error) {
-    console.error("Failed to parse JSON:", error);
-  }
+  const apiUrl = process.env.API_BASE_URL || "http://localhost:3000";
+  const res = await fetch(`${apiUrl}/api/books`);
+  const books: Book[] = await res.json();
 
   return (
     <div className="container mx-auto">
