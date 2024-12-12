@@ -3,7 +3,6 @@ import BookForm from "@/components/book-form"
 import { Book } from "@/data"
 
 export default async function Home() {
-  // Use environment variable for API base URL
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
   
   try {
@@ -31,6 +30,6 @@ export default async function Home() {
     );
   } catch (error) {
     console.error("Error fetching books:", error);
-    return <div>Error loading books. Please try again later.</div>;
+    return <div>Error loading books: {error.message}</div>;
   }
 }
