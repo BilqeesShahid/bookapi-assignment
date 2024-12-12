@@ -28,8 +28,13 @@ export default async function Home() {
         </div>
       </div>
     );
-  } catch (error) {
-    console.error("Error fetching books:", error);
-    return <div>Error loading books: {error.message}</div>;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching books:", error);
+      return <div>Error loading books: {error.message}</div>;
+    } else {
+      console.error("Unexpected error:", error);
+      return <div>Error loading books: An unexpected error occurred.</div>;
+    }
   }
 }
