@@ -3,9 +3,15 @@ import BookForm from "@/components/book-form"
 import { Book } from "@/data"
 
 export default async function Home() {
-  const res = await fetch("http://localhost:3000/api/books");
+  const baseURL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://your-deployed-domain.vercel.app"; // Replace with your production domain
+
+  const res = await fetch(`${baseURL}/api/books`);
   const books: Book[] = await res.json();
   console.log(books);
+
   return (
     <div className="container mx-auto">
       <BookForm />
