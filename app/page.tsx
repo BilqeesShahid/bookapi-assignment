@@ -4,13 +4,18 @@ import { Book } from "@/data"
 
 export default async function Home() {
   const baseURL =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://your-deployed-domain.vercel.app"; // Replace with your production domain
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   const res = await fetch(`${baseURL}/api/books`);
-  const books: Book[] = await res.json();
-  console.log(books);
+  const rawData = await res.text(); // Use .text() to read raw response
+  console.log("Raw API Response:", rawData);
+
+  let books: Book[] = [];
+  try {
+    books = JSON.parse(rawData); // Convert response to JSON
+  } catch (error) {
+    console.error("Failed to parse JSON:", error);
+  }
 
   return (
     <div className="container mx-auto">
